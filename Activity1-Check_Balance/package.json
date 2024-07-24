@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@bonfida/spl-name-service": "^2.5.4",
+    "@solana/web3.js": "^1.95.1",
+    "esrun": "^3.2.26",
+    "typescript": "^5.5.3"
+  }
+}
