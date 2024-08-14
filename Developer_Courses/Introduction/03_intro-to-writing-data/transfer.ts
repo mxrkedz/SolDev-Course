@@ -7,8 +7,8 @@ import {
   Keypair,
   LAMPORTS_PER_SOL,
 } from "@solana/web3.js";
+import { airdropIfRequired } from "@solana-developers/helpers";
 import dotenv from "dotenv";
-
 dotenv.config();
 
 const suppliedToPubkey = process.argv[2] || null;
@@ -29,7 +29,7 @@ console.log(
 );
 
 // Request for airdrop if the balance is less than 1 SOL
-await airdropIfRequired(
+const newBalance = await airdropIfRequired(
   connection,
   senderKeypair.publicKey,
   1 * LAMPORTS_PER_SOL,
@@ -79,20 +79,4 @@ function getKeyPair(): Keypair {
 
   // Create the keypair from the secret key array
   return Keypair.fromSecretKey(new Uint8Array(secretKeyArray));
-}
-async function airdropIfRequired(
-  connection: Connection,
-  publicKey: PublicKey,
-  minimumBalance: number,
-  airdropAmount: number
-) {
-  const balance = await connection.getBalance(publicKey);
-  if (balance < minimumBalance) {
-    console.log(`Current balance (${balance}) is less than the required minimum balance (${minimumBalance}). Airdropping ${airdropAmount} lamports.`);
-    const signature = await connection.requestAirdrop(publicKey, airdropAmount);
-    await connection.confirmTransaction(signature);
-    console.log(`Airdropped ${airdropAmount} lamports to ${publicKey.toBase58()}.`);
-  } else {
-    console.log(`Current balance (${balance}) is sufficient.`);
-  }
 }

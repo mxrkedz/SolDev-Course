@@ -1,4 +1,4 @@
-# Intro to Writing Data Notes
+# Intro to Writing Data
 ## Trsaction Instruction
 ``` ts
 const transaction = new Transaction();
